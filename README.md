@@ -11,7 +11,7 @@ Go check them out if you don't have them locally installed.
 ## Usage
 
 
-To **run **the program: please run following commands below in the terminal.
+To **run** the program: please run following commands below in the terminal.
 
 `gcc *.c -o c_coursework`
 
