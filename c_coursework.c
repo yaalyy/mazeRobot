@@ -1,7 +1,10 @@
 #include "graphics.h"
-#include<stdlib.h>
 #include "setting.h"
 #include "drawMaze.h"
+#include "robot.h"
+#include<stdlib.h>
+#include<stdio.h>
+
 
 int main(int argc, char **argv)
 {
@@ -9,7 +12,12 @@ int main(int argc, char **argv)
 	setWindowSize(width,height);
 	background();
 	drawMaze();
-
+	foreground();
+	scanMaze();
+	resetRobot();
+	updateAngleCoordinate();
+	drawRobot();
+	manullyControl();
 	return 0;
 }
 

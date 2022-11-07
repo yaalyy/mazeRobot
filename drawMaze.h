@@ -1,7 +1,7 @@
-#ifndef _DRAW_MAZE_H_
-#define _DRAW_MAZE_H_
+#ifndef DRAW_MAZE_H_
+#define DRAW_MAZE_H_
 
-extern const int mazeSize;
+
 
 struct MAZESQUARE       //each square of square is a struct, including data such as colour, coordinates and so on.
 {
@@ -9,6 +9,7 @@ struct MAZESQUARE       //each square of square is a struct, including data such
 	int xCoordinate, yCoordinate;
 	int isWall;
 	int isEntrance;
+	int xCentre, yCentre;   //the coordinate of centre of the square
 
 	
 };    

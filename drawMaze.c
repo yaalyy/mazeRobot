@@ -4,12 +4,9 @@
 #include<stdio.h>
 
 
-
-const int mazeSize = 11;  //the size of maze is 11x11, which can be modified
-
-
-
 struct MAZESQUARE mazeSquare[mazeSize][mazeSize]; //the size of maze is mazeSize x mazeSize
+
+
 
 
 void modifyMaze(int x,int y,int isExit,int isWall, int isEntrance)   //a procedure to quickly modify a square in the maze
@@ -64,6 +61,8 @@ void drawMaze()   //draw whole maze
 			{
 				drawSquare(x,y);
 			}
+			mazeSquare[j][i].xCentre = x + 0.5*squareWidth;
+			mazeSquare[j][i].yCentre = y + 0.5*squareWidth;
 			x = x + squareWidth;
 		}
 		y = y + squareWidth;
