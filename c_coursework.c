@@ -12,12 +12,19 @@ int main(int argc, char **argv)
 	setWindowSize(width,height);
 	background();
 	drawMaze();
+
 	foreground();
 	scanMaze();
 	resetRobot();
 	updateAngleCoordinate();
 	drawRobot();
-	manullyControl();
+
+	setDirection();
+	updateAngleCoordinate();
+	drawRobot();
+
+	manuallyControl(); 
+
 	return 0;
 }
 

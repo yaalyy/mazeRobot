@@ -23,7 +23,9 @@ void left();
 void right();
 int atMarker();
 int canMoveForward();
-void manullyControl();
+void manuallyControl();
+void setDirection();
+void autoSearch();
 
 
 

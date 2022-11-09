@@ -10,7 +10,7 @@ extern struct MAZESQUARE mazeSquare[mazeSize][mazeSize];
 
 void resetRobot()   //reset the coordinates of robot to the entrance coordinates
 {
-    robot.direction = 1;
+    robot.direction = 1;   //the default direction of robot is UP
     robot.xCoordinate = robot.xEntrance;
     robot.yCoordinate = robot.yEntrance;
 }
@@ -76,15 +76,16 @@ void scanMaze()  //scan the maze to get the coordinates of entrance and exit
             if (mazeSquare[j][i].isEntrance == 1)
             {
                 foundEntrance = 1;
-                robot.xEntrance = mazeSquare[j][i].xCentre;
+                robot.xEntrance = mazeSquare[j][i].xCentre;   //set entrance coordinates
                 robot.yEntrance = mazeSquare[j][i].yCentre;
-                break;
+                continue;
             }
             if (mazeSquare[j][i].isExit == 1)
             {
                 foundExit = 1;
-                robot.xExit = mazeSquare[j][i].xCentre;
+                robot.xExit = mazeSquare[j][i].xCentre;   //set exit coordinates
                 robot.yExit = mazeSquare[j][i].yCentre;
+                continue;
             }
         }
     }
@@ -243,9 +244,8 @@ int canMoveForward()
     return 0;
 }
 
-void manullyControl()   //here set commands to control the robot
+void manuallyControl()   //here set commands to manually control the robot
 {
-    right();
     forward();
     right();
     forward();
@@ -275,5 +275,73 @@ void manullyControl()   //here set commands to control the robot
     left();
     forward();
     atMarker();
+}
+
+void setDirection()   //Help robot find the correct direction to enter the maze, 
+//so it does not accidentally leave the maze
+{
+    struct CoordinateGroup
+    {
+        int x;
+        int y;
+        int isInside;
+    };
+
+    struct CoordinateGroup coGroup[5];  //represent coordinates around the robot in 4 distinct directions.
+    
+    coGroup[1].x = robot.xCoordinate;
+    coGroup[1].y = robot.yCoordinate - squareWidth;
+    coGroup[1].isInside = 0;
+    coGroup[2].x = robot.xCoordinate - squareWidth;
+    coGroup[2].y = robot.yCoordinate;
+    coGroup[2].isInside = 0;
+    coGroup[3].x = robot.xCoordinate;
+    coGroup[3].y = robot.yCoordinate + squareWidth;
+    coGroup[3].isInside = 0;
+    coGroup[4].x = robot.xCoordinate + squareWidth;
+    coGroup[4].y = robot.yCoordinate + squareWidth;
+    coGroup[4].isInside = 0;
+
+    int emptySpace; //the direction of leaving maze, so the opposite direction should be entrying the maze.
+    int correctDirection;
+    int i,j;
+    struct MAZESQUARE *mazePointer;
+    mazePointer = &mazeSquare[0][0];
+    for(i=0;i<mazeSize*mazeSize;i++)
+    {
+        for(j=1;j<5;j++)
+        {
+            if((coGroup[j].x == mazePointer->xCentre)&&(coGroup[j].y == mazePointer->yCentre))
+            {
+                coGroup[j].isInside = 1;
+            }
+        }
+    }
+
+    for(i=1;i<5;i++)
+    {
+        if (coGroup[i].isInside == 0)
+        {
+            emptySpace = i;
+            break;
+        }
+    }
+
+    correctDirection = emptySpace + 2;
+    if(correctDirection > 4)
+    {
+        correctDirection = correctDirection - 4;
+    }
+
+    robot.direction = correctDirection;
+
+    sleep(sleepTime);
+    
+
+}
+
+void autoSearch()
+{
+    
 }
 
