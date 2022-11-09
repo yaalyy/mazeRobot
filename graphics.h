@@ -1,3 +1,6 @@
+#ifndef GRAPHICS_H
+#define GRAPHICS_H
+
 enum colour {black,blue,cyan,darkgray,gray,green,lightgray,magenta,orange,pink,red,white,yellow};
 typedef enum colour colour;
 
@@ -23,4 +26,6 @@ void clear(void);
 void setWindowSize(int, int);
 
 void sleep(int);
+
+#endif
 

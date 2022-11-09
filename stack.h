@@ -1,10 +1,10 @@
 #ifndef STACK_H
 #define STACK_H
 
-#define pathSize 200
+#define pathSize 200    //the size of storage of path
 extern int pathPointer;
 
-struct MOVINGPATH
+struct MOVINGPATH    //store the history of path
 {
     int x;
     int y;

@@ -26,6 +26,7 @@ The layout of the maze can be modified by easily modifying [maze.txt](./maze.txt
 2 = Entrance  
 3 = Exit  
 
+In order to change the size of maze, modify the *mazeSize* in [setting.h](./setting.h "setting.h").
 
 
 ## What can this program do?

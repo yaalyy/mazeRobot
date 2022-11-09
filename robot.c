@@ -451,13 +451,24 @@ void autoSearch()  //dfs algorithm to search a path
         if(detectEnv() == 1)
         {
             nextPosition = movingPath[pathPointer];
+
+            moveTo(mazeSquare[nextPosition.x][nextPosition.y].xCentre,mazeSquare[nextPosition.x][nextPosition.y].yCentre);
+            mazeSquare[findXIndex(robot.xCoordinate)][findYIndex(robot.yCoordinate)].isVisited = 1;
         }
         else 
         {
-            nextPosition = stackPop(movingPath);
+            nextPosition = movingPath[pathPointer];
+            //nextPosition = stackPop(movingPath);
+
+            moveTo(mazeSquare[nextPosition.x][nextPosition.y].xCentre,mazeSquare[nextPosition.x][nextPosition.y].yCentre);
+            mazeSquare[findXIndex(robot.xCoordinate)][findYIndex(robot.yCoordinate)].isVisited = 1;
+            if(detectEnv() != 1)
+            {
+                stackPop(movingPath);
+            }
+            
         }
         
-        moveTo(mazeSquare[nextPosition.x][nextPosition.y].xCentre,mazeSquare[nextPosition.x][nextPosition.y].yCentre);
-        mazeSquare[findXIndex(robot.xCoordinate)][findYIndex(robot.yCoordinate)].isVisited = 1;
+        
     }
 }
