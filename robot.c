@@ -2,10 +2,12 @@
 #include "drawMaze.h"
 #include "setting.h"
 #include "graphics.h"
+#include "stack.h"
 #include<stdio.h>
 
 struct ROBOT robot;
 extern struct MAZESQUARE mazeSquare[mazeSize][mazeSize];
+extern struct MOVINGPATH movingPath[pathSize]; 
 
 
 void resetRobot()   //reset the coordinates of robot to the entrance coordinates
@@ -277,8 +279,7 @@ void manuallyControl()   //here set commands to manually control the robot
     atMarker();
 }
 
-void setDirection()   //Help robot find the correct direction to enter the maze, 
-//so it does not accidentally leave the maze
+void setDirection()   //Help robot find the correct direction to enter the maze, so it does not accidentally leave the maze
 {
     struct CoordinateGroup
     {
@@ -340,8 +341,123 @@ void setDirection()   //Help robot find the correct direction to enter the maze,
 
 }
 
-void autoSearch()
+void moveTo(int x,int y)  //move to a position around the robot
 {
-    
+    int currentX = robot.xCoordinate;
+    int currentY = robot.yCoordinate;
+    int direction = robot.direction;
+    int targetDirection;
+    if ((x == currentX)&&(y == currentY))
+    {
+        return;
+    }
+    else if ((x == currentX + squareWidth)&&(y == currentY))
+    {
+        targetDirection = 4;
+    }
+    else if ((x == currentX)&&(y == currentY + squareWidth))
+    {
+        targetDirection = 3;
+    }
+    else if ((x == currentX - squareWidth)&&(y == currentY))
+    {
+        targetDirection = 2;
+    }
+    else if ((x == currentX)&&(y == currentY - squareWidth))
+    {
+        targetDirection = 1;
+    }
+
+    while(direction != targetDirection)
+    {
+        if((direction == 1)&&(targetDirection == 4))
+        {
+            right();
+            direction = robot.direction;
+        }
+        else if((direction == 4)&&(targetDirection == 1))
+        {
+            left();
+            direction = robot.direction;
+        }
+        else
+        {
+            if(targetDirection - direction > 0)
+            {
+                left();
+                direction = robot.direction;
+            }
+            else
+            {
+                right();
+                direction = robot.direction;
+            }
+        }
+        
+    }
+
+    forward();
+
 }
 
+int detectEnv()  //detect robot's surroundings to see if there is free space
+{
+    struct MAZESQUARE upSquare,downSquare,leftSquare,rightSquare;
+    upSquare = mazeSquare[findXIndex(robot.xCoordinate)][findYIndex(robot.yCoordinate-squareWidth)];
+    downSquare = mazeSquare[findXIndex(robot.xCoordinate)][findYIndex(robot.yCoordinate+squareWidth)];
+    leftSquare = mazeSquare[findXIndex(robot.xCoordinate-squareWidth)][findYIndex(robot.yCoordinate)];
+    rightSquare = mazeSquare[findXIndex(robot.xCoordinate+squareWidth)][findYIndex(robot.yCoordinate)];
+    int newSpace = 0;
+    if ((upSquare.isWall == 0)&&(upSquare.isVisited != 1)&&(upSquare.isEntrance == 0))
+    {
+        stackPush(movingPath,upSquare.xCoordinate,upSquare.yCoordinate);
+        newSpace++;
+        return newSpace;
+    }
+
+    if ((downSquare.isWall == 0)&&(downSquare.isVisited != 1)&&(downSquare.isEntrance == 0))
+    {
+        stackPush(movingPath,downSquare.xCoordinate,downSquare.yCoordinate);
+        newSpace++;
+        return newSpace;
+    }
+
+    if ((leftSquare.isWall == 0)&&(leftSquare.isVisited != 1)&&(leftSquare.isEntrance == 0))
+    {
+        stackPush(movingPath,leftSquare.xCoordinate,leftSquare.yCoordinate);
+        newSpace++;
+        return newSpace;
+    }
+
+    if ((rightSquare.isWall == 0)&&(rightSquare.isVisited != 1)&&(rightSquare.isEntrance == 0))
+    {
+        stackPush(movingPath,rightSquare.xCoordinate,rightSquare.yCoordinate);
+        newSpace++;
+        return newSpace;
+    }
+    return newSpace;
+    
+}
+void autoSearch()  //dfs algorithm to search a path
+{
+    if(canMoveForward() == 1)   
+    {
+        forward();   //push the robot into the maze
+        mazeSquare[findXIndex(robot.xCoordinate)][findYIndex(robot.yCoordinate)].isVisited = 1;
+    }
+    while((atMarker() != 1))
+    {
+        struct MOVINGPATH nextPosition;
+        if(detectEnv() == 1)
+        {
+            nextPosition = movingPath[pathPointer];
+        }
+        else 
+        {
+            nextPosition = stackPop(movingPath);
+        }
+        
+        moveTo(mazeSquare[nextPosition.x][nextPosition.y].xCentre,mazeSquare[nextPosition.x][nextPosition.y].yCentre);
+        mazeSquare[findXIndex(robot.xCoordinate)][findYIndex(robot.yCoordinate)].isVisited = 1;
+    }
+}

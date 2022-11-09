@@ -23,7 +23,7 @@ int main(int argc, char **argv)
 	updateAngleCoordinate();
 	drawRobot();
 
-	manuallyControl(); 
+	autoSearch(); 
 
 	return 0;
 }

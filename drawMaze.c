@@ -123,3 +123,19 @@ void loadMazeData()    //maze data are stored in a file called "maze.txt"
 
 	fclose(file);
 }
+
+int findXIndex(int x)    //given a pixel coordinate, this function can find the x-index of mazeSquare.
+{
+	int initialX = (width - mazeSize*squareWidth)/2;
+	int XIndex;
+	XIndex = (x - initialX) / squareWidth;
+	return XIndex;
+}
+
+int findYIndex(int y)  //given a pixel coordinate, this function can find the y-index of mazeSquare.
+{
+	int initialY = (height - mazeSize*squareWidth)/2;
+	int YIndex;
+	YIndex = (y - initialY) / squareWidth;
+	return YIndex;
+}

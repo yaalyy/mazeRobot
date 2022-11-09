@@ -10,6 +10,7 @@ struct MAZESQUARE       //each square of square is a struct, including data such
 	int isWall;
 	int isEntrance;
 	int xCentre, yCentre;   //the coordinate of centre of the square
+	int isVisited;
 
 	
 };    
@@ -19,5 +20,7 @@ void drawWall(int ,int );
 void drawExit(int,int);
 void drawMaze();
 void loadMazeData();  
+int findXIndex(int);
+int findYIndex(int);
 
 #endif

@@ -25,6 +25,8 @@ int atMarker();
 int canMoveForward();
 void manuallyControl();
 void setDirection();
+void moveTo(int, int);
+int detectEnv();
 void autoSearch();
 
 
