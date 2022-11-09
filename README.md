@@ -35,7 +35,7 @@ In order to change the size of maze, modify the *mazeSize* in [setting.h](./sett
 3. A DFS search algorithm is used for the robot to find the exit.
 4. The program provides users pre-determined path and a search algorithm these two methods to select to make the robot reach the exit.
 
-## Screenshot
+## Examples
 ![The default maze](./maze1.png "The default maze")
 
 

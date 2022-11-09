@@ -464,7 +464,7 @@ void autoSearch()  //dfs algorithm to search a path
             mazeSquare[findXIndex(robot.xCoordinate)][findYIndex(robot.yCoordinate)].isVisited = 1;
             if(detectEnv() != 1)
             {
-                stackPop(movingPath);
+                stackPop(movingPath);   //if no more free space, go back and pop the last position in the path
             }
             
         }
