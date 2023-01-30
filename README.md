@@ -1,4 +1,4 @@
-# mazeCourseWork
+# mazeRobot
 ## Description
 **This is a uni Computer Science course work**.
 The whole project uses the [drawapp-2.0.jar](./drawapp-2.0.jar "drawapp-2.0.jar") to produce the animation and drawing.  
